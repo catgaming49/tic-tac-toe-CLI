@@ -13,20 +13,15 @@ int main() {
     Gameboard gameboard;
     Gameboard*gameptr = &gameboard;
     init_game(gameptr);
-
-    playerSelect(gameptr);
-
+    int exit = 0;
+    while (!exit) {
+        int returnval = playerSelect(gameptr);
+        while (!returnval) {
+            returnval = playerSelect(gameptr);
+        }
     renderBoard(gameptr);
-    checkBoardRemaining(gameptr);
-    setRandom(gameptr);
-
-    Sleep(1000);
+    AIselect(gameptr);
     renderBoard(gameptr);
-    checkBoardRemaining(gameptr);
-
-    Sleep(1000);
-    setRandom(gameptr);
-    renderBoard(gameptr);
-    checkBoardRemaining(gameptr);
+    }
     return 0;
 }

@@ -62,8 +62,11 @@ int readBoard(Gameboard*gameboard, Vector2 pos) {
 
 void renderBoard(Gameboard*gameboard) {
     for (int i = 0;i<3;i++) {
-         if (gameboard->Board[i][0]) {
+         if (gameboard->Board[i][0] == 1) {
             printf("#");
+         }
+         else if (gameboard->Board[i][0] == 2) {
+            printf("X");
          }
          else {
             printf("O");
@@ -71,8 +74,11 @@ void renderBoard(Gameboard*gameboard) {
     }
     printf("\n");
     for (int i = 0;i<3;i++) {
-        if (gameboard->Board[i][1]) {
+        if (gameboard->Board[i][1] == 1) {
             printf("#");
+         }
+         else if (gameboard->Board[i][0] == 2) {
+            printf("X");
          }
          else {
             printf("O");
@@ -80,8 +86,11 @@ void renderBoard(Gameboard*gameboard) {
     }
     printf("\n");
     for (int i = 0;i<3;i++) {
-        if (gameboard->Board[i][2]) {
+        if (gameboard->Board[i][2] == 1) {
             printf("#");
+         }
+         else if (gameboard->Board[i][0] == 2) {
+            printf("X");
          }
          else {
             printf("O");
@@ -121,7 +130,7 @@ Vector2 genRandom() {
     return pos;
 }
 
-void setRandom(Gameboard*gameboard) {
+void setRandom(Gameboard*gameboard, int val) {
 
     int timeout = 100;
     Vector2 randomPos = genRandom();
@@ -134,10 +143,10 @@ void setRandom(Gameboard*gameboard) {
     } while (setBoardResult == 1 && timeout > 0);
 
     if (setBoardResult != 1) {
-        gameboard->Board[randomPos.X][randomPos.Y] = 1;
+        gameboard->Board[randomPos.X][randomPos.Y] = val;
     }
     else {
-        printf("Timed out");
+        printf("Timed out\n");
     }
 }
 
@@ -158,6 +167,8 @@ int checkBoardRemaining(Gameboard*gameboard) {
 
 int AIselect(Gameboard*gameboard) {
     if (checkBoardRemaining(gameboard) < 9) {
+        printf("AI is choosing a random number\n");
+        setRandom(gameboard, 2);
         return 1;
     }
     else {
@@ -167,16 +178,23 @@ int AIselect(Gameboard*gameboard) {
 
 int playerSelect(Gameboard*gameboard) {
     if (checkBoardRemaining(gameboard) < 9) {
-        int input;
-        printf("Type a number between 1 and 9");
-        scanf("%i", &input);
-        if (input < 1 || input > 9) {
-            printf("Invalid input. Please enter a number between 1 and 9.\n");
+        int input1;
+        int input2;
+        printf("Type a number between 1 and 3");
+        scanf("%i", &input1);
+        if (input1>3||input1<1) {
+            printf("Invalid input. Please enter a number between 1 and 3.\n");
+            return 0;
+        }
+        printf("Type another number between 1 and 3");
+        scanf("%i", &input2);
+        if (input2>3||input2<1) {
+            printf("Invalid input. Please enter a number between 1 and 3.\n");
             return 0;
         } else {
             Vector2 pos;
-            pos.X = (input - 1) / 3;
-            pos.Y = (input - 1) % 3;
+            pos.X = input1;
+            pos.Y = input2;
             setBoard(gameboard, pos, 1);
             return 1;
         }
