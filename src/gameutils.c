@@ -2,8 +2,6 @@
 #include<math.h>
 #include<time.h>
 
-#include<conio.h>
-
 #include<stdlib.h>
 #define boardsize 3
 
@@ -26,11 +24,8 @@ int constrict(int num) {
     }
     else {
         return num;
-    }
-    
+    }    
 }
-
-
 
 void processVector(Vector2*pos) {
     pos->X = constrict(pos->X-1);
@@ -61,43 +56,21 @@ int readBoard(Gameboard*gameboard, Vector2 pos) {
 }
 
 void renderBoard(Gameboard*gameboard) {
-    for (int i = 0;i<3;i++) {
-         if (gameboard->Board[i][0] == 1) {
-            printf("#");
-         }
-         else if (gameboard->Board[i][0] == 2) {
-            printf("X");
-         }
-         else {
-            printf("O");
-         }
+    printf("\r");
+    for (int HORIZONTAL = 0;HORIZONTAL<3;HORIZONTAL++) {
+        for (int VERTICAL = 0;VERTICAL<3;VERTICAL++) {
+            if (gameboard->Board[HORIZONTAL][VERTICAL] == 1) {
+                printf("#");
+            }
+            else if (gameboard->Board[HORIZONTAL][VERTICAL] == 2) {
+                printf("X");
+            }
+            else {
+                printf("O");
+            }
+        }
+        printf("\n");
     }
-    printf("\n");
-    for (int i = 0;i<3;i++) {
-        if (gameboard->Board[i][1] == 1) {
-            printf("#");
-         }
-         else if (gameboard->Board[i][0] == 2) {
-            printf("X");
-         }
-         else {
-            printf("O");
-         }
-    }
-    printf("\n");
-    for (int i = 0;i<3;i++) {
-        if (gameboard->Board[i][2] == 1) {
-            printf("#");
-         }
-         else if (gameboard->Board[i][0] == 2) {
-            printf("X");
-         }
-         else {
-            printf("O");
-         }
-    }
-    printf("\n");
-
 }
 
 int checkSetBoard(Gameboard*gameboard, Vector2 pos) {
@@ -180,23 +153,32 @@ int playerSelect(Gameboard*gameboard) {
     if (checkBoardRemaining(gameboard) < 9) {
         int input1;
         int input2;
-        printf("Type a number between 1 and 3");
+        printf("Type a number from 1 to 3 where the # should be placed vertically");
         scanf("%i", &input1);
         if (input1>3||input1<1) {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
             return 0;
         }
-        printf("Type another number between 1 and 3");
+        printf("Type another number between 1 and 3 where the # should be placed horizontally");
         scanf("%i", &input2);
         if (input2>3||input2<1) {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
             return 0;
         } else {
-            Vector2 pos;
-            pos.X = input1;
-            pos.Y = input2;
-            setBoard(gameboard, pos, 1);
-            return 1;
+            Vector2 check;
+            check.X = input1;
+            check.Y = input2;
+            if (readBoard(gameboard, check)) {
+                printf("You already selected this position\n");
+                return 0;
+            }
+            else {
+                Vector2 pos;
+                pos.X = input1;
+                pos.Y = input2;
+                setBoard(gameboard, pos, 1);
+                return 1; 
+            }
         }
     }
 }
