@@ -2,8 +2,8 @@ BIN_DIR := ./bin
 BUILD_DIR := ./build
 SRC_DIR := ./src
 HEADER_DIR := ./include
-.PHONY: all
 
+.PHONY: all
 all: $(BIN_DIR)/main
 
 $(BUILD_DIR)/gameutils.o: $(SRC_DIR)/gameutils.c
