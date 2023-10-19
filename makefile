@@ -18,4 +18,6 @@ $(BIN_DIR)/main: $(BUILD_DIR)/main.o $(BUILD_DIR)/gameutils.o
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)/*.o
+.PHONY rm: clean
+	rm -r $(BIN_DIR)/*
 

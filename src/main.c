@@ -12,14 +12,19 @@
 int main() {
     Gameboard gameboard;
     Gameboard*gameptr = &gameboard;
-    init_game(gameptr);
+    initGame(gameptr);
     int exit = 0;
     while (!exit) {
         int returnval = playerSelect(gameptr);
-        while (!returnval) {
+        if (checkBoardRemaining(gameptr) >= 9) {
+            endGame(gameptr, &exit);
+        }
+        printf("benn %i %i\n", exit, checkBoardRemaining(gameptr));
+        if (!returnval) {
+            // printf("An error occured during player selection\n");
             returnval = playerSelect(gameptr);
         }
-    renderBoard(gameptr);
+    // renderBoard(gameptr);
     AIselect(gameptr);
     renderBoard(gameptr);
     }

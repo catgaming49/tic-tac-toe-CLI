@@ -19,7 +19,7 @@ typedef struct Gameboard {
 int constrict(int num);
 
 /**
- * @brief Sets a value between 0-2 to a value between 0-3 to account for arrays
+ * @brief Sets a value between 0-2 to a value between 1-3 to account for arrays
  * 
  * @param pos The position to process 
  */
@@ -84,7 +84,9 @@ void genRandom();
 
 int checkSetBoardRaw(Gameboard*gameboard, Vector2 pos);
 
-void init_game(Gameboard*gameboard);
+void initGame(Gameboard*gameboard);
+
+void endGame(Gameboard*gameboard, int *exitVal);
 
 /**
  * @brief 

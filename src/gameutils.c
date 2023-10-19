@@ -14,6 +14,21 @@ typedef struct Gameboard {
      int Board[3][3];
 }Gameboard;
 
+int checkBoardRemaining(Gameboard*gameboard) {
+    int total = 0;
+
+    for (int i = 0;i<3;i++) {
+        for (int i2 = 0;i2<3;i2++) {
+            // printf("Value at (%i, %i) is %i\n", i,i2 , gameboard->Board[i][i2]);
+            if (gameboard->Board[i][i2]) {
+                total += 1;
+            }
+        }
+    }
+    printf("%i\n", total);
+    return total;
+}
+
 int constrict(int num) {
     if (num > boardsize) {
         return boardsize;
@@ -92,8 +107,13 @@ int checkSetBoardRaw(Gameboard*gameboard, Vector2 pos) {
     }
 }
 
+void endGame(Gameboard*gameboard, int *exitVal) {
+    printf("The game has ended successfully");
+    *exitVal = 1;
+    exit(0);
+}
 
-void init_game(Gameboard*gameboard) {
+void initGame(Gameboard*gameboard) {
     clearBoard(gameboard);
     srand(time(NULL));
 }
@@ -113,7 +133,10 @@ void setRandom(Gameboard*gameboard, int val) {
         randomPos = genRandom();
         setBoardResult = checkSetBoardRaw(gameboard, randomPos);
         timeout--;
-    } while (setBoardResult == 1 && timeout > 0);
+        // printf("Running lopp");
+    } while (checkBoardRemaining(gameboard) < 9 && setBoardResult == 1 && timeout > 0);
+
+    // printf("AI choose %i %i\n", randomPos.X, randomPos.Y);
 
     if (setBoardResult != 1) {
         gameboard->Board[randomPos.X][randomPos.Y] = val;
@@ -123,23 +146,8 @@ void setRandom(Gameboard*gameboard, int val) {
     }
 }
 
-int checkBoardRemaining(Gameboard*gameboard) {
-    int total = 0;
-    for (int i = 0;i<3;i++) {
-        total += gameboard->Board[i][0];
-    }
-    for (int i = 0;i<3;i++) {
-        total += gameboard->Board[i][1];
-    }
-    for (int i = 0;i<3;i++) {
-        total += gameboard->Board[i][2];
-    }
-    printf("%i\n", total);
-    return total;
-}
-
 int AIselect(Gameboard*gameboard) {
-    if (checkBoardRemaining(gameboard) < 9) {
+    if (checkBoardRemaining(gameboard) <= 9) {
         printf("AI is choosing a random number\n");
         setRandom(gameboard, 2);
         return 1;
@@ -153,13 +161,13 @@ int playerSelect(Gameboard*gameboard) {
     if (checkBoardRemaining(gameboard) < 9) {
         int input1;
         int input2;
-        printf("Type a number from 1 to 3 where the # should be placed vertically");
+        printf("Type a number from 1 to 3 where the pawn should be placed vertically\n");
         scanf("%i", &input1);
         if (input1>3||input1<1) {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
             return 0;
         }
-        printf("Type another number between 1 and 3 where the # should be placed horizontally");
+        printf("Type another number between 1 and 3 where the pawn should be placed horizontally\n");
         scanf("%i", &input2);
         if (input2>3||input2<1) {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
@@ -169,7 +177,7 @@ int playerSelect(Gameboard*gameboard) {
             check.X = input1;
             check.Y = input2;
             if (readBoard(gameboard, check)) {
-                printf("You already selected this position\n");
+                printf("This posistion already has a pawn\n");
                 return 0;
             }
             else {
