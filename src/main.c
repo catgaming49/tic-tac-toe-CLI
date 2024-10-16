@@ -19,7 +19,7 @@ int main() {
         if (checkBoardRemaining(gameptr) >= 9) {
             endGame(gameptr, &exit);
         }
-        printf("benn %i %i\n", exit, checkBoardRemaining(gameptr));
+        //printf("benn %i %i\n", exit, checkBoardRemaining(gameptr));
         if (!returnval) {
             // printf("An error occured during player selection\n");
             returnval = playerSelect(gameptr);
