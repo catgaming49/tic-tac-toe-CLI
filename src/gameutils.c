@@ -14,6 +14,16 @@ typedef struct Gameboard {
      int Board[3][3];
 }Gameboard;
 
+int checkForWinner(Gameboard*gameboard) {
+for (int index = 0;index < 3;index++) {
+    printf("1:%i 2:%i 3:%i\n", gameboard->Board[index][0], gameboard->Board[index][1], gameboard->Board[index][2]);
+    if (gameboard->Board[index][0] == 1 && gameboard->Board[index][1] == 1 && gameboard->Board[index][2] == 1) {
+        return 1;
+    }
+}
+return 0;
+}
+
 int checkBoardRemaining(Gameboard*gameboard) {
     int total = 0;
 
@@ -39,7 +49,7 @@ int constrict(int num) {
     }
     else {
         return num;
-    }    
+    }
 }
 
 void processVector(Vector2*pos) {
@@ -157,36 +167,37 @@ int AIselect(Gameboard*gameboard) {
     }
 }
 
-int playerSelect(Gameboard*gameboard) {
+void playerSelect(Gameboard*gameboard) {
     if (checkBoardRemaining(gameboard) < 9) {
         int input1;
         int input2;
-        printf("Type a number from 1 to 3 where the pawn should be placed vertically\n");
-        scanf("%i", &input1);
-        if (input1>3||input1<1) {
-            printf("Invalid input. Please enter a number between 1 and 3.\n");
-            return 0;
+        start:
+        printf("Type a number from 1 to 3 where the pawn should be placed horizontally. |\n");
+        scanf(" %i", &input1);
+        while (input1>3||input1<1) {
+            printf("Invalid input. Please enter a number between 1 and 3 ?%i .\n", input1);
+            scanf(" %i", &input1);
         }
-        printf("Type another number between 1 and 3 where the pawn should be placed horizontally\n");
+        printf("Type another number between 1 and 3  where the pawn should be placed vertically. -\n");
         scanf("%i", &input2);
-        if (input2>3||input2<1) {
+        while (input2>3 || input2<1) {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
-            return 0;
-        } else {
+            scanf(" %i", &input2);
+            // return 0;
+        } 
             Vector2 check;
             check.X = input1;
             check.Y = input2;
             if (readBoard(gameboard, check)) {
                 printf("This posistion already has a pawn\n");
-                return 0;
+                goto start;
             }
             else {
                 Vector2 pos;
                 pos.X = input1;
                 pos.Y = input2;
                 setBoard(gameboard, pos, 1);
-                return 1; 
+                // return 1;
             }
-        }
     }
 }

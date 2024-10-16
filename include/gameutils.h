@@ -10,6 +10,15 @@ typedef struct Gameboard {
      int Board[3][3];
 }Gameboard;
 
+
+/**
+ * @brief Checks if someone has won the game according to the rules of tic tac toe
+ * 
+ * @param gameboard A 
+ * @return int
+ */
+int checkForWinner(Gameboard*gameboard);
+
 /**
  * @brief Constricts a value to a set range. separated from processVector() for potential future use
  * 
@@ -105,6 +114,6 @@ int AIselect(Gameboard*gameboard);
  * @brief 
  * 
  */
-int playerSelect(Gameboard*gameboard);
+void playerSelect(Gameboard*gameboard);
 
 #endif

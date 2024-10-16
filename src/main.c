@@ -15,18 +15,18 @@ int main() {
     initGame(gameptr);
     int exit = 0;
     while (!exit) {
-        int returnval = playerSelect(gameptr);
+        playerSelect(gameptr);
         if (checkBoardRemaining(gameptr) >= 9) {
             endGame(gameptr, &exit);
         }
         //printf("benn %i %i\n", exit, checkBoardRemaining(gameptr));
-        if (!returnval) {
-            // printf("An error occured during player selection\n");
-            returnval = playerSelect(gameptr);
-        }
-    // renderBoard(gameptr);
+        // if (!returnval) {
+        //     // printf("An error occured during player selection\n");
+        //     returnval = playerSelect(gameptr);
+        // }
     AIselect(gameptr);
     renderBoard(gameptr);
+    printf("Is there a winner? %i \n", checkForWinner(gameptr));
     }
     return 0;
 }
